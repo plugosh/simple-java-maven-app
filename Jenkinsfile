@@ -1,5 +1,3 @@
-
-
 pipeline {
     agent {
         docker {
@@ -14,6 +12,11 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
+            }
+            post {
+                success {
+                    archiveArtifacts artifacts: 'target/*.jar', followSymlinks: false
+                }
             }
         }
         stage('Test') {
@@ -33,7 +36,3 @@ pipeline {
         }
     }
 }
-
-
-
-
